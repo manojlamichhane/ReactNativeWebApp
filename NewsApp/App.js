@@ -2,24 +2,26 @@ import 'react-native-gesture-handler';
 import React, {useEffect, useContext} from 'react';
 import MainNavigator from './navigation/MainNavigator';
 import NewsProvider from './store/providers/NewsProvider';
-import NewsContext from './store/contexts/NewsContext';
 import {Provider as PaperProvider} from 'react-native-paper';
+import NewsContext from './store/contexts/NewsContext';
 
 const App = () => {
   const newsContext = useContext(NewsContext);
 
-  console.log(newsContext);
-
-  // useEffect( () => {
-
-  // }, []);
-
+  useEffect(async () => {
+    try {
+      await newsContext.getNewsFromApi();
+      console.log(newsContext.news);
+    } catch (e) {
+      console.log(e);
+    }
+  });
   return (
-    <NewsProvider>
-      <PaperProvider>
+    <PaperProvider>
+      <NewsProvider>
         <MainNavigator />
-      </PaperProvider>
-    </NewsProvider>
+      </NewsProvider>
+    </PaperProvider>
   );
 };
 
