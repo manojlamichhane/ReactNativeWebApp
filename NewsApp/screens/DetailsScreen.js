@@ -5,8 +5,10 @@ import {Badge, Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {Linking} from 'react-native';
+import SplashScreen from '../components/SplashScreen';
 
 const DetailsScreen = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const newsContext = useContext(NewsContext);
   const [news, setNews] = useState({});
   const navigation = useNavigation();
@@ -14,18 +16,21 @@ const DetailsScreen = () => {
   useEffect(async () => {
     try {
       await setNews(newsContext.selectedNews);
+      setIsLoading(false);
     } catch (e) {
       console.log(e);
     }
   }, []);
 
-  console.log(news);
+  if (isLoading) {
+    return <SplashScreen />;
+  }
   return (
     <View style={{flex: 1}}>
       <View style={{flex: 0.63}}>
         <ImageBackground
           source={{uri: news && news.urlToImage}}
-          style={{width: '100%', height: 347}}>
+          style={{width: '100%', height: 347, opacity: 0.7}}>
           <Icon
             onPress={() => navigation.navigate('Home')}
             style={{
@@ -35,11 +40,11 @@ const DetailsScreen = () => {
             }}
             name="chevron-back"
             size={30}
-            color="white"
+            color="black"
           />
           <Text
             style={{
-              color: 'white',
+              color: 'black',
               fontSize: 20,
               fontWeight: 'bold',
               position: 'absolute',
@@ -72,9 +77,9 @@ const DetailsScreen = () => {
             }}></View>
           <View>
             <Text style={{marginLeft: 10, fontSize: 18}}>{news.author}</Text>
-            {/* <Text style={{marginLeft: 10, fontSize: 12, color: '#626667'}}>
-              {news && news.publishedAt.slice(0, 10)}
-            </Text> */}
+            <Text style={{marginLeft: 10, fontSize: 12, color: '#626667'}}>
+              {news.publishedAt && news.publishedAt.slice(0, 10)}
+            </Text>
           </View>
         </View>
         <View style={{paddingHorizontal: 20}}>

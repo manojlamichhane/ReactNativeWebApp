@@ -6,6 +6,7 @@ import NewsContext from '../store/contexts/NewsContext';
 import SplashScreen from '../components/SplashScreen';
 
 const HomeScreen = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [news, setNews] = useState([]);
   const [recentNews, setRecentNews] = useState([]);
   const [newsSources, setNewsSources] = useState([]);
@@ -17,19 +18,23 @@ const HomeScreen = () => {
       await newsContext.getNewsFromApi();
       await newsContext.getRecentNewsFromApi();
       await newsContext.getSources();
-
       setNews(newsContext.news);
       setRecentNews(newsContext.recentNews);
       setNewsSources(newsContext.sources);
+      setIsLoading(false);
     } catch (e) {
       console.log(e);
     }
-  }, [news, recentNews, newsSources]);
+  }, [news.recentNews, newsSources]);
+
+  if (isLoading) {
+    return <SplashScreen />;
+  }
 
   return (
     <ScrollView>
       <View style={{padding: 20, backgroundColor: 'white'}}>
-        <Text style={{fontSize: 20, fontWeight: 'bold', color: '#e5e6ea'}}>
+        <Text style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>
           MONDAY, APRIL 13
         </Text>
         <Text style={{fontSize: 35, fontWeight: 'bold', color: 'black'}}>
@@ -43,10 +48,9 @@ const HomeScreen = () => {
         <Text style={{fontSize: 25, fontWeight: 'bold', color: 'black'}}>
           Our Sources
         </Text>
-
         <ScrollView horizontal={true}>
-          {newsSources?.map(item => (
-            <View key={item.id} style={{marginVertical: 30, marginRight: 20}}>
+          {newsSources?.map((item, index) => (
+            <View key={index} style={{marginVertical: 30, marginRight: 20}}>
               <Badge size={40}>{item.name}</Badge>
             </View>
           ))}

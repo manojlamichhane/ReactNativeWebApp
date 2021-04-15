@@ -4,8 +4,8 @@ import {ActivityIndicator, Colors} from 'react-native-paper';
 
 const SplashScreen = () => {
   return (
-    <View>
-      <ActivityIndicator animating={true} color={Colors.red800} />
+    <View style={{paddingVertical: 200}}>
+      <ActivityIndicator size={100} animating={true} color={Colors.red800} />
     </View>
   );
 };

@@ -20,9 +20,8 @@ const NewsCard = props => {
   return (
     <ScrollView horizontal={true}>
       {props.news?.map((item, index) => (
-        <Pressable onPress={() => handleDetail(item)}>
+        <Pressable key={index} onPress={() => handleDetail(item)}>
           <View
-            key={index}
             style={{
               marginTop: 20,
               paddingRight: 10,

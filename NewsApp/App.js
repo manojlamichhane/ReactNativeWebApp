@@ -4,6 +4,7 @@ import MainNavigator from './navigation/MainNavigator';
 import NewsProvider from './store/providers/NewsProvider';
 import {Provider as PaperProvider} from 'react-native-paper';
 import NewsContext from './store/contexts/NewsContext';
+import CateoryScreen from './screens/CategoryScreen';
 
 const App = () => {
   const newsContext = useContext(NewsContext);
